@@ -1,30 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Clips</title>
+    <style>
+        #clips-container {
+            position: relative;
+            width: 620px;
+            height: 378px;
+        }
+        #twitch-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none; /* Empieza oculto */
+        }
+    </style>
 </head>
 <body>
-    <video id="videoPlayer" width="640" height="360" autoplay>
-        <source src="" type="video/mp4">
-    </video>
+    <div id="clips-container">
+        <iframe
+            id="twitch-iframe"
+            frameborder="0"
+            allowfullscreen="true"
+            scrolling="no"
+            width="620"
+            height="378">
+        </iframe>
+    </div>
 
     <script>
-        var videoPlayer = document.getElementById('videoPlayer');
-        var clips = [
-            'https://video-edge-a4ca99.pdx01.abs.hls.ttvnw.net/v1/segment/CjDWTmIAO3MWEhzKb9kanmYHk0yWcLJoo4-phiQcqtB3ktvzYpyNiqIXS5jw6xshSuR56xjCwJIqddkL4fyaLXIChT8hZU0W0r4BP-WA57gtiirfHcakGxVF02iAw5MaH8lePcj9CBn-bH2b8a5ZAEi-BNkUrq5toQV6_-kfr25X2_7PUobwVmlsQPRDo6s376fH6o8WOfSv7xujFQ0imMKPnNoMyKai_WT8WzgdPcW1LRSJNkIGGHLKSq5iB1meULOSqz8Gaexel9crG1P6DVxTfcJ7Nqf8Yk5KugD-JPIHjBzn192DxXgSYh9YyNJlPyQk0aUud4SzOntJwznUUVs8wxIQmyLi1OWusd1b2AURa94gMwhOJUq0GJ20GYiEKOFlTkH9HQJBgS-rpJ4RCeaoMtYLQf7RiWGt2nRVdX8Sseyp7eTcUAgTWiBx-0QkQNB7OUMCKw0LjezOSrOVAXAZoNA4OtZ4BtD5DtyBzWG3M1MEfWY8KTX_u-SEdg-S2sunOZwnmtkBki5t4zvKUkEB3Vl98OfykSSFjDMZ2UARm2hsvC2eV2v2MHogzZHM39MfAwgR1UYNbBZTDboxFAJcQZTM9jJl0FtasJZWcDl2B4himghUCaxJe7tNuLDHtuDAhJN1r0SB5WANGkPGakgjleITZYrs6B9eiVizIplU5fl9YjtgiSziOgxFNAHk_sHft8grLSl0uZtUUF0HxX6SY0wz62R6L7kQOGGaBPCMbMDqr5HrvH8lanm3G2Ncbl3fgMFLZ65J0xQ68ZtkJ9D.ts',
-            'https://production.assets.clips.twitchcdn.net/Q2nCR485ZlyT_mdbyajFaw/42983011465-offset-6592.mp4?sig=90e93c720a33d2fb5cc7d68e7cb5e33078219f88&token=%7B%22authorization%22%3A%7B%22forbidden%22%3Afalse%2C%22reason%22%3A%22%22%7D%2C%22clip_uri%22%3A%22https%3A%2F%2Fproduction.assets.clips.twitchcdn.net%2FQ2nCR485ZlyT_mdbyajFaw%2F42983011465-offset-6592.mp4%22%2C%22clip_slug%22%3A%22DeliciousCourteousHerringHassaanChop-jzlmXJP-Z1vJqMVr%22%2C%22device_id%22%3A%22wI4Y9IqcvJK4q4HsRUpESMjCnvDL5qvb%22%2C%22expires%22%3A1724994795%2C%22user_id%22%3A%22226055830%22%2C%22version%22%3A2%7D',
-            'https://production.assets.clips.twitchcdn.net/mcAGP6iwV76Qpu4gKg_STA/vod-2232437182-offset-6888.mp4?sig=60c84202b44ac72e2494f32ae6b43ef77bf25681&token=%7B%22authorization%22%3A%7B%22forbidden%22%3Afalse%2C%22reason%22%3A%22%22%7D%2C%22clip_uri%22%3A%22https%3A%2F%2Fproduction.assets.clips.twitchcdn.net%2FmcAGP6iwV76Qpu4gKg_STA%2Fvod-2232437182-offset-6888.mp4%22%2C%22clip_slug%22%3A%22LuckyDiligentRedpandaHassaanChop-qLBXvpCm7iAqD9JM%22%2C%22device_id%22%3A%22wI4Y9IqcvJK4q4HsRUpESMjCnvDL5qvb%22%2C%22expires%22%3A1724994820%2C%22user_id%22%3A%22226055830%22%2C%22version%22%3A2%7D'
+        const clips = [
+            "DeliciousCourteousHerringHassaanChop-jzlmXJP-Z1vJqMVr",
+            "SilkyNeighborlyClamGivePLZ-tYF4GwAekPRDeWsX",
+            "LuckyDiligentRedpandaHassaanChop-qLBXvpCm7iAqD9JM"
         ];
-        var currentClip = 0;
 
-        videoPlayer.addEventListener('ended', function() {
-            currentClip++;
-            if (currentClip >= clips.length) {
-                currentClip = 0;
-            }
-            videoPlayer.src = clips[currentClip];
-            videoPlayer.play();
-        });
-        videoPlayer.src = clips[currentClip];
+        const clipDurations = [15000, 18000, 17000]; // Duraciones en milisegundos para cada clip
+        let currentClipIndex = 0;
+
+        function loadClip(index) {
+            const clipId = clips[index];
+            const iframe = document.getElementById('twitch-iframe');
+
+            // Ocultar el iframe antes de cargar el siguiente clip
+            iframe.style.display = "none";
+            iframe.src = `https://clips.twitch.tv/embed?clip=${clipId}&parent=127.0.0.1&autoplay=true`;
+
+            // Mostrar el iframe una vez que el contenido se ha cargado
+            iframe.onload = function() {
+                iframe.style.display = "block";
+            };
+
+            const duration = clipDurations[index];
+            setTimeout(() => {
+                currentClipIndex++;
+                if (currentClipIndex >= clips.length) {
+                    currentClipIndex = 0; // Volver a empezar desde el primer clip
+                }
+                loadClip(currentClipIndex);
+            }, duration);
+        }
+
+        // Iniciar la reproducción del primer clip
+        loadClip(currentClipIndex);
     </script>
 </body>
 </html>
