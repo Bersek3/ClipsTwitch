@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <video id="videoPlayer" width="640" height="360" autoplay>
+        <source src="" type="video/mp4">
+    </video>
+
+    <script>
+        var videoPlayer = document.getElementById('videoPlayer');
+        var clips = [
+            'https://production.assets.clips.twitchcdn.net/kCaaEbWBeBsAHpD0Q3lrFw/AT-cm%7CkCaaEbWBeBsAHpD0Q3lrFw.mp4?sig=61c54cb3c2eedad0c3acfdd586404e16e8e03f0b&token=%7B%22authorization%22%3A%7B%22forbidden%22%3Afalse%2C%22reason%22%3A%22%22%7D%2C%22clip_uri%22%3A%22https%3A%2F%2Fproduction.assets.clips.twitchcdn.net%2FkCaaEbWBeBsAHpD0Q3lrFw%2FAT-cm%257CkCaaEbWBeBsAHpD0Q3lrFw.mp4%22%2C%22clip_slug%22%3A%22SilkyNeighborlyClamGivePLZ-tYF4GwAekPRDeWsX%22%2C%22device_id%22%3A%22wI4Y9IqcvJK4q4HsRUpESMjCnvDL5qvb%22%2C%22expires%22%3A1724994780%2C%22user_id%22%3A%22226055830%22%2C%22version%22%3A2%7D',
+            'https://production.assets.clips.twitchcdn.net/Q2nCR485ZlyT_mdbyajFaw/42983011465-offset-6592.mp4?sig=90e93c720a33d2fb5cc7d68e7cb5e33078219f88&token=%7B%22authorization%22%3A%7B%22forbidden%22%3Afalse%2C%22reason%22%3A%22%22%7D%2C%22clip_uri%22%3A%22https%3A%2F%2Fproduction.assets.clips.twitchcdn.net%2FQ2nCR485ZlyT_mdbyajFaw%2F42983011465-offset-6592.mp4%22%2C%22clip_slug%22%3A%22DeliciousCourteousHerringHassaanChop-jzlmXJP-Z1vJqMVr%22%2C%22device_id%22%3A%22wI4Y9IqcvJK4q4HsRUpESMjCnvDL5qvb%22%2C%22expires%22%3A1724994795%2C%22user_id%22%3A%22226055830%22%2C%22version%22%3A2%7D',
+            'https://production.assets.clips.twitchcdn.net/mcAGP6iwV76Qpu4gKg_STA/vod-2232437182-offset-6888.mp4?sig=60c84202b44ac72e2494f32ae6b43ef77bf25681&token=%7B%22authorization%22%3A%7B%22forbidden%22%3Afalse%2C%22reason%22%3A%22%22%7D%2C%22clip_uri%22%3A%22https%3A%2F%2Fproduction.assets.clips.twitchcdn.net%2FmcAGP6iwV76Qpu4gKg_STA%2Fvod-2232437182-offset-6888.mp4%22%2C%22clip_slug%22%3A%22LuckyDiligentRedpandaHassaanChop-qLBXvpCm7iAqD9JM%22%2C%22device_id%22%3A%22wI4Y9IqcvJK4q4HsRUpESMjCnvDL5qvb%22%2C%22expires%22%3A1724994820%2C%22user_id%22%3A%22226055830%22%2C%22version%22%3A2%7D'
+        ];
+        var currentClip = 0;
+
+        videoPlayer.addEventListener('ended', function() {
+            currentClip++;
+            if (currentClip >= clips.length) {
+                currentClip = 0;
+            }
+            videoPlayer.src = clips[currentClip];
+            videoPlayer.play();
+        });
+        videoPlayer.src = clips[currentClip];
+    </script>
+</body>
+</html>
